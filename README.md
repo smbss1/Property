@@ -1,2 +1,2 @@
-# Property
-Property C# in C++
+# Signal
+Signal/Slot Event implemented in C++
