@@ -263,6 +263,22 @@ namespace fox
     private:
         T m_oData;
     };
+
+
+    template<typename T>
+    inline std::istream& operator >> (std::istream& is, Property<T>& p)
+    {
+        auto temp(p.get());
+        is >> temp;
+        p.set(std::move(temp));
+        return is;
+    }
+
+    template<typename T>
+    inline std::ostream& operator << (std::ostream& os, const Property<T>& p)
+    {
+        return os << p.get();
+    }
 }
 
 #endif // FOX_PROPERTY_HPP

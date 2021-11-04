@@ -178,3 +178,21 @@ TEST(Property, ValueDivisionAssign)
     myProp /= 2;
     EXPECT_TRUE(myProp == 5);
 }
+
+TEST(Property, Output)
+{
+    fox::Property<int> myProp(10);
+
+    testing::internal::CaptureStdout();
+    std::cout << "My Props: " << myProp;
+    EXPECT_TRUE(testing::internal::GetCapturedStdout() == "My Props: 10");
+}
+
+TEST(Property, Input)
+{
+    fox::Property<int> myProp(10);
+
+    std::istringstream str("10");
+    str >> myProp;
+    EXPECT_TRUE(myProp == 10);
+}
