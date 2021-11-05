@@ -5,7 +5,6 @@ enable_testing()
 file(GLOB_RECURSE TESTS_SRCS "*.cpp")
 
 add_executable(tests ${TESTS_SRCS})
-target_link_libraries(tests ${CONAN_LIBS})
-target_include_directories(tests PRIVATE "../include")
+target_link_libraries(tests ${CONAN_LIBS} fox_property)
 
 add_test(tests tests)

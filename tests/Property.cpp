@@ -63,7 +63,7 @@ TEST(Property, ConstructorPassValueByMove)
 TEST(Property, GetPointerValue)
 {
     fox::Property<std::unique_ptr<int>> myProp(std::make_unique<int>(45));
-    EXPECT_TRUE(*(*myProp) == 45);
+    EXPECT_TRUE(*myProp == 45);
 }
 
 TEST(Property, GetValueFromPointer)
@@ -195,4 +195,38 @@ TEST(Property, Input)
     std::istringstream str("10");
     str >> myProp;
     EXPECT_TRUE(myProp == 10);
+}
+
+TEST(Property, OnChangeEvent)
+{
+    int iRes = 0;
+    fox::Property<int> myProp;
+    myProp.OnChange().connect([&](int v) {
+        iRes = v;
+        std::cout << "OnValueChange Event triggered with value: " << v << std::endl;
+    });
+    myProp = 10;
+    EXPECT_TRUE(iRes == 10);
+}
+
+TEST(Property, OnBeforeChangeEvent)
+{
+    int iRes = 0;
+    fox::Property<int> myProp;
+    myProp.OnBeforeChange().connect([&](int v) {
+        iRes = v;
+        std::cout << "OnBeforeValueChange Event triggered with value: " << v << std::endl;
+    });
+
+    // The old value of myProp should be 0
+    EXPECT_TRUE(iRes == 0);
+
+    // When we set the prop to 10, the old value still 0
+    myProp = 10;
+    EXPECT_TRUE(iRes == 0);
+
+    // The old value of myProp should be 10
+    // so when the signal will be send, iRes should be 10
+    myProp = 20;
+    EXPECT_TRUE(iRes == 10);
 }
