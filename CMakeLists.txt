@@ -18,7 +18,7 @@ add_library(fox_property STATIC include/Property.hpp)
 target_include_directories(fox_property PUBLIC "include")
 target_link_libraries(fox_property PUBLIC fox_signal)
 
-set(PROPERTY_TEST 1)
+set(PROPERTY_TEST 0)
 
 if (PROPERTY_TEST)
     add_subdirectory(tests)
